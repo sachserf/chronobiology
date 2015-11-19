@@ -1,0 +1,10 @@
+Package: chronobiology
+Type: Package
+Title: Processing time data in a biological context
+Version: 0.1
+Date: 2015-11-19
+Author: Thomas Ruf, Frederik Sachser
+Maintainer: <f.sachser@gmx.at>
+Description: Many biological datasets include information about date and time (e.g. telemetry data, camera traps, observations...). The package provides functions to get additional information from this kind of data.
+License: GPL-2
+LazyData: TRUE
