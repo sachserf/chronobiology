@@ -1,6 +1,8 @@
 POSIXct_info <-
 function(data_POSIXct){
      tzone <- attributes(data_POSIXct)$tzone # specify input-timezone
+     POSIX_lt <- as.POSIXlt(data_POSIXct,
+                            tz = tzone)
      date <- as.Date(strftime(data_POSIXct,
                               format="%F",
                               tz = tzone)) # ISO 8601 date format
@@ -42,7 +44,7 @@ function(data_POSIXct){
      timezone <- strftime(data_POSIXct,
                           format="%Z",
                           tz = tzone)
-     return(data.frame(date, year, quarter, months, weekday_short,
+     return(data.frame(POSIX_lt, date, year, quarter, months, weekday_short,
                        weekend, julian_date, dayofyear, hour,
                        partofday, time, time_num, hours2UTC, timezone))
 }

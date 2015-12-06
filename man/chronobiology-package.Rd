@@ -18,6 +18,8 @@ Maintainer: \packageMaintainer{chronobiology}
 \references{
 The formula within the function twilight() was adapted from the following webpage:
 http://lexikon.astronomie.info/zeitgleichung/
+
+The function stimuli_distance() integrates the function distm() from the geosphere package.
 }
 \keyword{chronobiology-package}
 \keyword{chronobiology}
