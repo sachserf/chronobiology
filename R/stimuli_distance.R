@@ -111,7 +111,7 @@ stimuli_distance <- function(df_observed, df_stimuli, minutesbeforeobservation =
                              all.x = TRUE)[3])
     names(df_stim_in$df_upcoming_stim) <- "upcoming_stim"
   }
-  if(nrow(df_upcoming_stim) != 0){
+  if(nrow(df_most_recent_stim) != 0){
     df_obs_in$df_most_recent_stim <-
       suppressWarnings(merge(data.frame(table(df_obs_in$O_rowID)),
                              data.frame(table(df_most_recent_stim$O_rowID)),
