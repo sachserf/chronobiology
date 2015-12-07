@@ -6,7 +6,7 @@ combine data from observations and stimuli by distance
 \description{
 The function selects stimuli (e.g. disturbance events) prior to observational data by distance. The stimuli that falls within a specified timeframe, as well as the most recent stimulus and the upcoming stimulus for each observation (within the specified spatial range) will be combined. Additionally the output contains a dataframe for the observations and the stimuli with additional frequencies of the combinations of the data. The input data should be preformatted (see 'Arguments').}
 \usage{
-stimuli_distance(df_observed, df_stimuli, minutesbeforeobservation = 0, minutesafterobservation = 0, maxdist = FALSE, distance_algorithm = distVincentyEllipsoid)
+stimuli_distance(df_observed, df_stimuli, minutesbeforeobservation = 0, minutesafterobservation = 0, maxdist = FALSE, distance_algorithm = geosphere::distVincentyEllipsoid)
 }
 \arguments{
   \item{df_observed}{
@@ -41,5 +41,24 @@ Robert J. Hijmans (2015). geosphere: Spherical Trigonometry. R package version 1
 }
 \author{
 Frederik Sachser
+}
+\examples{
+  now <- as.POSIXct(x = "2015-01-30 20:58:00", tz = "CET", origin = "01/01/1970")
+  date_obs <- seq(now, now + 90*60*99, 90*60)
+  date_stim <- sample(date_obs, 15) + sample(1:100, 1)
+  attributes(date_obs)$tz <- 'CET'
+  attributes(date_stim)$tz <- 'CET'
+  lat_obs <- runif(n = 100, min = 46.1, max = 46.9)
+  lon_obs <- runif(n = 100, min = 13.1, max = 13.9)
+  lat_stim <- sample(lat_obs, 15) + 0.004
+  lon_stim <- sample(lon_obs, 15) + 0.004
+  df_obs <- data.frame(lon_obs, lat_obs, date_obs)
+  df_stim <- data.frame(lon_stim, lat_stim, date_stim)
+  stimuli_distance(df_observed = df_obs,
+                   df_stimuli = df_stim,
+                   minutesbeforeobservation = 480,
+                   minutesafterobservation = 360,
+                   maxdist = 1000,
+                   distance_algorithm = geosphere::distVincentyEllipsoid)
 }
 \keyword{ stimuli_distance }

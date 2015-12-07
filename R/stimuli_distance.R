@@ -1,4 +1,4 @@
-stimuli_distance <- function(df_observed, df_stimuli, minutesbeforeobservation = 0, minutesafterobservation = 0, maxdist = FALSE, distance_algorithm = distVincentyEllipsoid){
+stimuli_distance <- function(df_observed, df_stimuli, minutesbeforeobservation = 0, minutesafterobservation = 0, maxdist = FALSE, distance_algorithm = geosphere::distVincentyEllipsoid){
   # OBSERVATIONS
   # definitions
   df_observed$rowID <- 1:nrow(df_observed)
@@ -23,7 +23,7 @@ stimuli_distance <- function(df_observed, df_stimuli, minutesbeforeobservation =
                                  fun = distance_algorithm)
 
   ### ALL POSSIBLE COMBINATIONS
-  df_allcombinations <- (merge(x = df_observed, y = df_stimuli))
+  df_allcombinations <- merge(x = df_observed, y = df_stimuli)
 
   ### SPATIAL EXTENT
   diff_meters <- c(distmatrix) # all "variables" (stimuli) in one col
@@ -77,43 +77,54 @@ stimuli_distance <- function(df_observed, df_stimuli, minutesbeforeobservation =
                                 , ])
 
   ### Frequency of data
-  df_obs_in$timeframe <-
-    suppressWarnings(merge(data.frame(table(df_obs_in$O_rowID)),
-                           data.frame(table(df_maxdisttime$O_rowID)),
-                           by = "Var1",
-                           all.x = TRUE)[3])
-  names(df_obs_in$timeframe) <- "timeframe"
-  df_stim_in$timeframe <-
-    suppressWarnings(merge(data.frame(table(df_stim_in$S_rowID)),
-                           data.frame(table(df_maxdisttime$S_rowID)),
-                           by = "Var1",
-                           all.x = TRUE)[3])
-  names(df_stim_in$timeframe) <- "timeframe"
-  df_obs_in$df_upcoming_stim <-
-    suppressWarnings(merge(data.frame(table(df_obs_in$O_rowID)),
-                           data.frame(table(df_upcoming_stim$O_rowID)),
-                           by = "Var1",
-                           all.x = TRUE)[3])
-  names(df_obs_in$df_upcoming_stim) <- "upcoming_stim"
-  df_stim_in$df_upcoming_stim <-
-    suppressWarnings(merge(data.frame(table(df_stim_in$S_rowID)),
-                           data.frame(table(df_upcoming_stim$S_rowID)),
-                           by = "Var1",
-                           all.x = TRUE)[3])
-  names(df_stim_in$df_upcoming_stim) <- "upcoming_stim"
-  df_obs_in$df_most_recent_stim <-
-    suppressWarnings(merge(data.frame(table(df_obs_in$O_rowID)),
-                           data.frame(table(df_most_recent_stim$O_rowID)),
-                           by = "Var1",
-                           all.x = TRUE)[3])
-  names(df_obs_in$df_most_recent_stim) <- "most_recent_stim"
-  df_stim_in$df_most_recent_stim <-
-    suppressWarnings(merge(data.frame(table(df_stim_in$S_rowID)),
-                           data.frame(table(df_most_recent_stim$S_rowID)),
-                           by = "Var1",
-                           all.x = TRUE)[3])
-  names(df_stim_in$df_most_recent_stim) <- "most_recent_stim"
+  data.frame(table(df_obs_in$O_rowID))
+  data.frame(table(df_maxdisttime$O_rowID))
+  table(df_maxdisttime$O_rowID)
+  df_maxdisttime$O_rowID
 
+  if(nrow(df_maxdisttime) != 0){
+    df_obs_in$timeframe <-
+      suppressWarnings(merge(data.frame(table(df_obs_in$O_rowID)),
+                             data.frame(table(df_maxdisttime$O_rowID)),
+                             by = "Var1",
+                             all.x = TRUE)[3])
+    names(df_obs_in$timeframe) <- "timeframe"
+
+    df_stim_in$timeframe <-
+      suppressWarnings(merge(data.frame(table(df_stim_in$S_rowID)),
+                             data.frame(table(df_maxdisttime$S_rowID)),
+                             by = "Var1",
+                             all.x = TRUE)[3])
+  }
+  if(nrow(df_upcoming_stim) != 0){
+    names(df_stim_in$timeframe) <- "timeframe"
+    df_obs_in$df_upcoming_stim <-
+      suppressWarnings(merge(data.frame(table(df_obs_in$O_rowID)),
+                             data.frame(table(df_upcoming_stim$O_rowID)),
+                             by = "Var1",
+                             all.x = TRUE)[3])
+    names(df_obs_in$df_upcoming_stim) <- "upcoming_stim"
+    df_stim_in$df_upcoming_stim <-
+      suppressWarnings(merge(data.frame(table(df_stim_in$S_rowID)),
+                             data.frame(table(df_upcoming_stim$S_rowID)),
+                             by = "Var1",
+                             all.x = TRUE)[3])
+    names(df_stim_in$df_upcoming_stim) <- "upcoming_stim"
+  }
+  if(nrow(df_upcoming_stim) != 0){
+    df_obs_in$df_most_recent_stim <-
+      suppressWarnings(merge(data.frame(table(df_obs_in$O_rowID)),
+                             data.frame(table(df_most_recent_stim$O_rowID)),
+                             by = "Var1",
+                             all.x = TRUE)[3])
+    names(df_obs_in$df_most_recent_stim) <- "most_recent_stim"
+    df_stim_in$df_most_recent_stim <-
+      suppressWarnings(merge(data.frame(table(df_stim_in$S_rowID)),
+                             data.frame(table(df_most_recent_stim$S_rowID)),
+                             by = "Var1",
+                             all.x = TRUE)[3])
+    names(df_stim_in$df_most_recent_stim) <- "most_recent_stim"
+  }
   ### RETURN OUTPUT
   list_out <- list(timeframe = df_maxdisttime,
                    upcoming_stim = df_upcoming_stim,
