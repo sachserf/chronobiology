@@ -25,7 +25,7 @@ Numerical value specifying the minutes after an observation. Only stimuli that f
 Numerical value specifying the maximum distance between observational and stimuli data (in meter).
 }
   \item{distance_algorithm}{
-Specifies the algorithm used for the distance calculation. The function uses the 'distm'-function of the package 'geosphere'. Possible choices are 'distVincentyEllipsoid' (default), 'distVincentySphere', 'distCosine' and 'distHaversine'. See ?geosphere::distm for more information.
+Specifies the algorithm used for the distance calculation. The function uses the 'distm'-function of the package 'geosphere'. Possible choices are 'geosphere::distVincentyEllipsoid' (default), 'geosphere::distVincentySphere', 'geosphere::distCosine' and 'geosphere::distHaversine'. See ?geosphere::distm for more information.
 }
 }
 \value{
