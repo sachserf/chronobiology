@@ -8,5 +8,7 @@ Many species show diurnal movement pattern due to different lighting conditions.
 The formula within the function twilight() was adapted from the following webpage:
 [http://lexikon.astronomie.info/zeitgleichung/](http://lexikon.astronomie.info/zeitgleichung/)
 
+The function stimuli_distance() uses external functions from the geosphere-package.
+
 ## Installation
 devtools::install_github("sachserf/chronobiology")
